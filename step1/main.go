@@ -71,26 +71,24 @@ func main() {
 
 	fmt.Print("Number of requests: ")
 	fmt.Scan(&requestsNumber)
-	var latency_input float64
+	var latencyInput float64
 
 	for rn := range requestsNumber {
 		step := rn + 1
 		fmt.Printf("Request %v latency: ", step)
-		fmt.Scan(&latency_input)
-		totalLatency += latency_input
+		fmt.Scan(&latencyInput)
+		totalLatency += latencyInput
+	}
 
-		if step == requestsNumber {
-			avg := totalLatency / float64(requestsNumber)
-			fmt.Printf("\nTotal latency: %.2f ms\n", totalLatency)
-			fmt.Printf("Average latency: %.2f ms\n", avg)
+	avg := totalLatency / float64(requestsNumber)
+	fmt.Printf("\nTotal latency: %.2f ms\n", totalLatency)
+	fmt.Printf("Average latency: %.2f ms\n", avg)
 
-			if avg <= 100 {
-				fmt.Println("STATUS: FAST")
-			} else if avg <= 300 {
-				fmt.Println("STATUS: ACCEPTABLE")
-			} else {
-				fmt.Println("STATUS: SLOW")
-			}
-		}
+	if avg <= 100 {
+		fmt.Println("STATUS: FAST")
+	} else if avg <= 300 {
+		fmt.Println("STATUS: ACCEPTABLE")
+	} else {
+		fmt.Println("STATUS: SLOW")
 	}
 }
