@@ -17,7 +17,7 @@ func calculateAverage(reading []float64) float64 {
 }
 
 func findHighest(reading []float64) float64 {
-	highestNum := 0.0
+	highestNum := reading[0]
 
 	for _, value := range reading {
 		if highestNum < value {
