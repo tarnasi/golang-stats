@@ -1,25 +1,24 @@
 package main
 
-
 import (
 	"fmt"
 )
 
-func calculateAverage(reading []float64) float64 {
-	numberReading := len(reading)
+func calculateAverage(readings []float64) float64 {
+	numberReading := len(readings)
 	totalReading := 0.0
 
-	for _, value := range reading {
+	for _, value := range readings {
 		totalReading += value
 	}
 
 	return totalReading / float64(numberReading)
 }
 
-func findHighest(reading []float64) float64 {
-	highestNum := reading[0]
+func findHighest(readings []float64) float64 {
+	highestNum := readings[0]
 
-	for _, value := range reading {
+	for _, value := range readings {
 		if highestNum < value {
 			highestNum = value
 		}
@@ -28,12 +27,12 @@ func findHighest(reading []float64) float64 {
 	return highestNum
 }
 
-func countAboveAverage(reading []float64, avg float64) int {
+func countAboveAverage(readings []float64, avg float64) int {
 	var counter int
 
-	for _, value := range reading {
+	for _, value := range readings {
 		if value > avg {
-			counter += 1
+			counter++
 		}
 	}
 
@@ -41,25 +40,25 @@ func countAboveAverage(reading []float64, avg float64) int {
 }
 
 func main() {
-	var number_of_sensors int
-	var sensor_val float64
+	var numberOfSensors int
+	var sensorVal float64
 
 	sensors := []float64{}
 
 	fmt.Print("Number for reading: ")
-	fmt.Scan(&number_of_sensors)
+	fmt.Scan(&numberOfSensors)
 
-	for num := range number_of_sensors {
+	for num := range numberOfSensors {
 		step := num + 1
 
 		fmt.Printf("Reading %d: ", step)
-		fmt.Scan(&sensor_val)
-		sensors = append(sensors, sensor_val)
+		fmt.Scan(&sensorVal)
+		sensors = append(sensors, sensorVal)
 	}
 
 	avg := calculateAverage(sensors)
 
 	fmt.Printf("\nAverage: %.2f\n", avg)
-	fmt.Printf("Above: %.2f\n", findHighest(sensors))
+	fmt.Printf("Highest: %.2f\n", findHighest(sensors))
 	fmt.Printf("Above Average: %d\n", countAboveAverage(sensors, avg))
 }
