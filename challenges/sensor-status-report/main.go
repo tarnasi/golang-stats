@@ -9,15 +9,6 @@ type Sensor struct {
 	MaxValue float64
 }
 
-type ReportSensor struct {
-	Name   string
-	Value  float64
-	Status string
-}
-
-var stores []Sensor
-var reports []ReportSensor
-
 func classifySensor(sensor Sensor) string {
 	if sensor.MinValue > sensor.MaxValue {
 		return "INVALID"
@@ -31,14 +22,14 @@ func classifySensor(sensor Sensor) string {
 }
 
 func main() {
-	var numberOfSensor int
+	var numberOfSensors int
+	sensors := []Sensor{}
 
 	fmt.Print("Number of sensors: ")
-	fmt.Scan(&numberOfSensor)
+	fmt.Scan(&numberOfSensors)
 
-	for val := range numberOfSensor {
+	for val := range numberOfSensors {
 		var sensor Sensor
-		var report ReportSensor
 
 		fmt.Printf("\nSensor %d name: ", val+1)
 		fmt.Scan(&sensor.Name)
@@ -48,19 +39,12 @@ func main() {
 		fmt.Scan(&sensor.MinValue)
 		fmt.Print("Maximum Value: ")
 		fmt.Scan(&sensor.MaxValue)
-
-		stores = append(stores, sensor)
-		status := classifySensor(sensor)
-
-		report.Name = sensor.Name
-		report.Value = sensor.Value
-		report.Status = status
-
-		reports = append(reports, report)
+		sensors = append(sensors, sensor)
 	}
 
-	fmt.Println("--- Sensor Report ---")
-	for _, report := range reports {
-		fmt.Printf("\n%v: %.2f - %v", report.Name, report.Value, report.Status)
+	fmt.Print("\n--- Sensor Report ---")
+	for _, sensor := range sensors {
+		status := classifySensor(sensor)
+		fmt.Printf("%s: %.2f - %s\n", sensor.Name, sensor.Value, status)
 	}
 }
