@@ -9,8 +9,8 @@ type Sensor struct {
 	MaxValue float64
 }
 
-func classifySensor(sensor Sensor) string {
-	if sensor.MinValue > sensor.MaxValue {
+func (sensor Sensor) Status() string {
+	if !sensor.IsValid() {
 		return "INVALID"
 	} else if sensor.Value < sensor.MinValue {
 		return "LOW"
@@ -19,6 +19,23 @@ func classifySensor(sensor Sensor) string {
 	}
 
 	return "NORMAL"
+}
+
+func (sensor Sensor) IsValid() bool {
+    return sensor.MinValue <= sensor.MaxValue
+}
+
+func (sensor Sensor) Deviation() float64 {
+	status := sensor.Status()
+
+	if !sensor.IsValid() || status == "NORMAL" {
+		return 0
+	} else if status == "LOW" {
+		return sensor.MinValue - sensor.Value
+	}
+
+	// High
+	return sensor.Value - sensor.MaxValue
 }
 
 func main() {
@@ -42,9 +59,10 @@ func main() {
 		sensors = append(sensors, sensor)
 	}
 
-	fmt.Print("\n--- Sensor Report ---")
+	fmt.Println("\n--- Sensor Report ---")
 	for _, sensor := range sensors {
-		status := classifySensor(sensor)
-		fmt.Printf("%s: %.2f - %s\n", sensor.Name, sensor.Value, status)
+		status := sensor.Status()
+		deviation := sensor.Deviation()
+		fmt.Printf("%s: %.2f - %s - Deviation: %.2f\n", sensor.Name, sensor.Value, status, deviation)
 	}
 }
