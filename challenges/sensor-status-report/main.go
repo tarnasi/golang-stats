@@ -11,7 +11,6 @@ type Sensor struct {
 
 func main() {
 	var numberOfSensors int
-	var offset float64
 	sensors := []Sensor{}
 
 	fmt.Print("Number of sensors: ")
@@ -31,16 +30,17 @@ func main() {
 		sensors = append(sensors, sensor)
 	}
 
-	PrintReport(sensors)
+	printReport(sensors, "Sensor Report Before nCalibration")
 
 	// Calibre
 	for index := range sensors {
+		var offset float64
 		fmt.Printf("\nCalibration offset for sensor %s: ", sensors[index].Name)
 		fmt.Scan(&offset)
 		sensors[index].Calibrate(offset)
 	}
 
-	PrintReport(sensors)
+	printReport(sensors, "Sensor Report After nCalibration")
 }
 
 func (sensor Sensor) Status() string {
@@ -72,7 +72,7 @@ func (sensor Sensor) Deviation() float64 {
 	return sensor.Value - sensor.MaxValue
 }
 
-func PrintReport(sensors []Sensor) {
+func printReport(sensors []Sensor, title string) {
 	fmt.Println("\n--- Sensor Report ---")
 	for _, sensor := range sensors {
 		status := sensor.Status()
