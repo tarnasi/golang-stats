@@ -32,7 +32,7 @@ func main() {
 
 	printReport(sensors, "Sensor Report Before nCalibration")
 
-	// Calibre
+	// Calibrate sensors
 	for index := range sensors {
 		var offset float64
 		fmt.Printf("\nCalibration offset for sensor %s: ", sensors[index].Name)
@@ -77,7 +77,13 @@ func printReport(sensors []Sensor, title string) {
 	for _, sensor := range sensors {
 		status := sensor.Status()
 		deviation := sensor.Deviation()
-		fmt.Printf("%s: %.2f - %s - Deviation: %.2f\n", sensor.Name, sensor.Value, status, deviation)
+		fmt.Printf(
+			"%s: %.2f - %s - Deviation: %.2f\n",
+			sensor.Name,
+			sensor.Value,
+			status,
+			deviation,
+		)
 	}
 }
 
