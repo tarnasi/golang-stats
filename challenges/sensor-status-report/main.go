@@ -73,7 +73,7 @@ func (sensor Sensor) Deviation() float64 {
 }
 
 func printReport(sensors []Sensor, title string) {
-	fmt.Println("\n--- Sensor Report ---")
+	fmt.Printf("\n--- %s ---\n", title)
 	for _, sensor := range sensors {
 		status := sensor.Status()
 		deviation := sensor.Deviation()
