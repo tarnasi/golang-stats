@@ -27,10 +27,21 @@ func main() {
 		fmt.Scan(&sensor.MinValue)
 		fmt.Print("Maximum Value: ")
 		fmt.Scan(&sensor.MaxValue)
-		sensors = append(sensors, sensor)
+		sensor, err := createSensor(
+			sensor.Name,
+			sensor.Value,
+			sensor.MinValue,
+			sensor.MaxValue,
+		)
+
+		if err != nil {
+			fmt.Println("Error:", err)
+    		continue
+		}
+		sensors = append(sensors, sensor)	
 	}
 
-	printReport(sensors, "Sensor Report Before nCalibration")
+	printReport(sensors, "Sensor Report Before Calibration")
 
 	// Calibrate sensors
 	for index := range sensors {
@@ -40,7 +51,7 @@ func main() {
 		sensors[index].Calibrate(offset)
 	}
 
-	printReport(sensors, "Sensor Report After nCalibration")
+	printReport(sensors, "Sensor Report After Calibration")
 }
 
 func (sensor Sensor) Status() string {
@@ -89,4 +100,25 @@ func printReport(sensors []Sensor, title string) {
 
 func (sensor *Sensor) Calibrate(offset float64) {
 	sensor.Value += offset
+}
+
+func createSensor(
+	name string,
+	value float64,
+	minValue float64,
+	MaxValue float64,
+) (Sensor, error) {
+	sensor := Sensor {
+		name, value, minValue, MaxValue,
+	}
+
+	if !sensor.IsValid() {
+		return Sensor{}, fmt.Errorf(
+			"minimum %.2f cannot be greater than maximum %.2f",
+			minValue,
+			MaxValue,
+		)
+	}
+
+	return sensor, nil
 }
