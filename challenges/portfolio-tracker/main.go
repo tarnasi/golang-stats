@@ -4,11 +4,10 @@ import (
 	"fmt"
 )
 
-
 type Asset struct {
-	Symbol string
-	Quantity  float64
-	Price  float64
+	Symbol   string
+	Quantity float64
+	Price    float64
 }
 
 func main() {
@@ -22,7 +21,7 @@ func main() {
 	fmt.Scan(&numberOfAssets)
 
 	for step := range numberOfAssets {
-		asset :=readAsset(step+1)
+		asset := readAsset(step + 1)
 		portfolio[asset.Symbol] = asset
 	}
 
@@ -32,7 +31,7 @@ func main() {
 func readAsset(step int) Asset {
 	var asset Asset
 
-	fmt.Printf("Asset %d Symbol: ", step)
+	fmt.Printf("\nAsset %d Symbol: ", step)
 	fmt.Scan(&asset.Symbol)
 
 	fmt.Print("Quantity: ")
@@ -45,7 +44,12 @@ func readAsset(step int) Asset {
 }
 
 func printAssets(portfolio map[string]Asset) {
+	fmt.Print("\n--- Portfolio ---\n\n")
+	var total float64
 	for Symbol, asset := range portfolio {
-		fmt.Printf("\n%v: %.2f\n", Symbol, asset.Price * asset.Quantity)
+		portfolioValue := asset.Price * asset.Quantity
+		fmt.Printf("%v: $%.2f\n", Symbol, portfolioValue)
+		total += portfolioValue
 	}
+	fmt.Printf("\nTotal Portfolio Value: $%.2f\n", total)
 }
